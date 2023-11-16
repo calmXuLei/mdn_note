@@ -56,7 +56,7 @@
 // logIterable(123);
 
 // ------------------------------------------------
-// Array.prototype.at()
+// * Array.prototype.at()
 // const colors = ['red', 'green', 'blue'];
 //
 // const lengthWay = colors[colors.length - 2];
@@ -388,16 +388,104 @@
  * 数组的实例方法 fill, 用一个静态的值改变索引之间的一系列元素，
  * 返回更改过后的数组
  *
- * value: 用来填充数组的值，注意: 数组中的全部元素都这个精确值：如果该值是一个对象，数组中的每个插槽都会引用那个对象。
+ * value:
+ *    用来填充数组的值，注意: 数组中的全部元素都这个精确值：如果该值是一个对象，数组中的每个插槽都会引用那个对象。
+ *
+ * start(optional):
+ *    基于零的索引, 开始填充的索引,转换为整数.
+ *    1. 索引为负数会从数组的尾部, start < 0 => start + array.length 被使用
+ *    2. 如果 start < -array.length 或者 start 被省略, 0为默认使用.
+ *    3. 如果 start >= array.length, 没有索引被填充.
+ *
+ * end(optional):
+ *    基于 0 的索引, 尾部填充的索引,转换为整数, fill 填充不包含 end 项.
+ *    1. 索引为负数会从数组的尾部开始， end < 0 => end + array.length 被用。
+ *    2. 如果 end < array.length, 0 被使用。
+ *    3. 如果 end >= array.length 或者 被省略，数组的长度被使用。将会导致到 end 的全部索引被填充。
+ *    4. 如果初始化后, end 的位置在 start 之前, 那么没有索引被填充
+ *
+ * Return Value
  */
 
-const arr1 = [1, 2, 3, 4];
+// const arr1 = [1, 2, 3, 4];
+//
+// console.log(arr1.fill(0, 2, 4));
+// // => [1, 2, 0, 0]
+//
+// console.log(arr1.fill(5, 1));
+// // => [1, 5, 5, 5]
+//
+// console.log(arr1.fill(6))
+// // => [6, 6, 6, 6]
+//
+// console.log([1, 2, 3].fill(4));
+// // => [4, 4, 4]
+//
+// console.log([1, 2, 3].fill(4, 1));
+// // => [1, 4, 4]
+//
+// console.log([1, 2, 3].fill(4, 1, 2));
+// // => [1, 4, 3]
+//
+// console.log([1, 2, 3].fill(4, 1, 1));
+// // => [1, 2, 3]
+//
+// console.log([1, 2, 3].fill(4, 3, 3));
+// // => [1, 2 ,3]
+//
+// console.log([1, 2, 3].fill(4, -3, -2));
+// // => [4, 2, 3]
+//
+// console.log([1, 2, 3].fill(4, NaN, NaN));
+// // => [1, 2, 3]
+//
+// console.log([1, 2, 3].fill(4, 3, 5));
+// // => [1, 2, 3]
+//
+// console.log(Array(3).fill(4));
+// // => [4, 4, 4]
+//
+// const arr = Array(3).fill({});
+// arr[0].hi = "hi";
+// console.log(arr);
+// // => [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
 
-console.log(arr1.fill(0, 2, 4));
-// => [1, 2, 0, 0]
+// 如何创建一个都是 1 的矩阵
+// const arr = new Array(3);
+//
+// for (let i = 0; i < arr.length; i ++) {
+//     arr[i] = new Array(4).fill(1);
+// }
+//
+// console.log(arr)
+// arr[0][0] = 10;
+// console.log(arr[0][0]); // => 10
+// console.log(arr[1][0]); // => 1
+// console.log(arr[2][0]); // => 1
 
-console.log(arr1.fill(5, 1));
-// => [1, 5, 5, 5]
+// 使用 fill 充满一个空的数组
+// const tempGirls = Array(5).fill("Girl");
+// console.log(tempGirls);
 
-console.log(arr1.fill(6))
-// => [6, 6, 6, 6]
+// const emptyArr = [,,,,,];
+// emptyArr.fill("girls");
+//
+// console.log(emptyArr);
+
+// 一个不是数组的对象调用 fill
+const arrryLike = {
+    length: 2
+}
+
+console.log(Array.prototype.fill.call(arrryLike, 1));
+
+console.log(arrryLike)
+
+const arrLike2 = {
+    length: 5,
+    1: 'a',
+    3: 'b'
+}
+
+Array.prototype.fill.call(arrLike2, 'girls', 3);
+console.log(arrLike2)
