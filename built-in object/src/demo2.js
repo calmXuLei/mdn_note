@@ -368,15 +368,36 @@
 
 // ---------------------------------------------------
 // 不是数组的对象调用 every
-const arrayLike = {
-    length: 3,
-    0: 'a',
-    1: 'b',
-    2: 'c',
-    3: 345 // ignored by every() since length >　3
-}
+// const arrayLike = {
+//     length: 3,
+//     0: 'a',
+//     1: 'b',
+//     2: 'c',
+//     3: 345 // ignored by every() since length >　3
+// }
 
-console.log(
-    Array.prototype.every.call(arrayLike, (x) => typeof x === 'string')
-)
+// console.log(
+//     Array.prototype.every.call(arrayLike, (x) => typeof x === 'string')
+// )
 // => true
+
+
+// ---------------------------------------------------------------------------
+/**
+ * Array.prototype.fill(value, start, end)
+ * 数组的实例方法 fill, 用一个静态的值改变索引之间的一系列元素，
+ * 返回更改过后的数组
+ *
+ * value: 用来填充数组的值，注意: 数组中的全部元素都这个精确值：如果该值是一个对象，数组中的每个插槽都会引用那个对象。
+ */
+
+const arr1 = [1, 2, 3, 4];
+
+console.log(arr1.fill(0, 2, 4));
+// => [1, 2, 0, 0]
+
+console.log(arr1.fill(5, 1));
+// => [1, 5, 5, 5]
+
+console.log(arr1.fill(6))
+// => [6, 6, 6, 6]
